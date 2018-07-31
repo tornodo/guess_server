@@ -7,7 +7,7 @@ namespace snake_server.user
         // 房间最大容量
         private static readonly int RoomCapacity = 8;
         private User Owner { set; get; }
-        private LinkedList<User> UserList = new LinkedList<User>();
+        private readonly LinkedList<User> UserList = new LinkedList<User>();
 
         public ChatRoom(User user)
         {
