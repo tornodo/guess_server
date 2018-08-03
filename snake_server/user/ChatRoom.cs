@@ -1,22 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace snake_server.user
 {
     public class ChatRoom
     {
         // 房间最大容量
-        private static readonly int RoomCapacity = 8;
-        private User Owner { set; get; }
-        private readonly LinkedList<User> UserList = new LinkedList<User>();
+        private const int RoomCapacity = 8;
+        private string key { set; get; }
+        private readonly ConcurrentDictionary<string, User> _users = new ConcurrentDictionary<string, User>();
 
-        public ChatRoom(User user)
+        public ChatRoom(string key)
         {
-            this.Owner = user;
+            this.key = key;
         }
 
         public bool IsFull()
         {
-            return this.UserList.Count == RoomCapacity;
+            return this._users.Count == RoomCapacity;
         }
 
         public bool AddUser(User user)
@@ -26,13 +27,12 @@ namespace snake_server.user
                 return false;
             }
 
-            UserList.AddLast(user);
-            return true;
+            return _users.TryAdd(user.Key, user);
         }
 
         public bool RemoveUser(User user)
         {
-            return UserList.Remove(user);
+            return _users.TryRemove(user.Key, out user);
         }
     }
 }
