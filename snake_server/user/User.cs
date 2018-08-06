@@ -9,13 +9,13 @@ namespace snake_server.user
             this.Key = key;
             this.Name = name;
             this.Socket = socket;
-            this.seat = seat;
+            this.Seat = seat;
             this.Offline = false;
         }
-        private string Key { get; }
-        private string Name { set; get; }
-        private int seat { set; get; }
-        private WebSocket Socket { set; get;}
-        private bool Offline { set; get; }
+        public string Key { get; }
+        public string Name { set; get; }
+        public int Seat { set; get; }
+        public WebSocket Socket { set; get;}
+        public bool Offline { set; get; }
     }
 }

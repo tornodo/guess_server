@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+message Protocol {
+    string key = 1;
+    enum ProtocolType {
+        LOGIN = 0;
+        CREATE_ROOM = 1;
+        JOIN_ROOM = 2;
+        LEAVE_ROOM = 3;
+        CHAT = 4;
+        GAME_BEGIN = 5;
+        GAME_END = 6;
+        PAINT = 7;
+    }
+    ProtocolType type = 2;
+    string name = 3;
+    string room_key = 4;
+    string msg = 5;
+    double begin_point = 6;
+    double end_point = 7;
+    int32 pen_size = 8;
+    int32 color = 9;
+}

@@ -2,6 +2,7 @@
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
+using snake_server.user;
 
 namespace snake_server.websocket
 {
@@ -9,28 +10,28 @@ namespace snake_server.websocket
     {
         // 设置字典初始化默认容量
         private static readonly int _captcity = 10;
-        private static readonly ConcurrentDictionary<string, WebSocket> ClientSockets = 
-            new ConcurrentDictionary<string, WebSocket>(_captcity, _captcity);
+        private static readonly ConcurrentDictionary<string, User> ClientSockets = 
+            new ConcurrentDictionary<string, User>(_captcity, _captcity);
 
 
-        public static bool AddSocket(string key, WebSocket socket)
+        public static bool AddSocket(string key, User user)
         {
-            return ClientSockets.TryAdd(key, socket);
+            return ClientSockets.TryAdd(key, user);
         }
 
         public static async Task RemoveSocket(string key)
         {
-            if (ClientSockets.TryRemove(key, out var socket))
+            if (ClientSockets.TryRemove(key, out var user))
             {
-                await socket.CloseAsync(
+                await user.Socket.CloseAsync(
                     closeStatus: WebSocketCloseStatus.NormalClosure,
-                    statusDescription: "Closed by user",
+                    statusDescription: "Closed",
                     cancellationToken: CancellationToken.None
                 ).ConfigureAwait(false);
             }
         }
 
-        public static ConcurrentDictionary<string, WebSocket> GetAllClients()
+        public static ConcurrentDictionary<string, User> GetAllClients()
         {
             return ClientSockets;
         }

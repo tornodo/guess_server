@@ -1,5 +1,4 @@
-﻿using System;
-using snake_server_http;
+﻿using snake_server.http;
 
 namespace snake_server
 {
